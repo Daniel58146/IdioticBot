@@ -1,0 +1,81 @@
+import discord
+from discord.ext import commands
+import random
+import os
+import requests
+import typing
+
+intents = discord.Intents.default()
+intents.message_content = True
+
+bot = commands.Bot(command_prefix='$', intents=intents)
+
+@bot.event
+async def on_ready():
+    print(f'Hai fatto l\'accesso come {bot.user}')
+
+@bot.command()
+async def ciao(ctx):
+    await ctx.send(f'Ciao! Sono qui per farti tirrar fuori qualche bestemmia {bot.user}!')
+
+@bot.command()
+async def heh(ctx, count_heh = 5):
+    await ctx.send("he" * count_heh)
+@bot.command()
+async def specchio(ctx):
+    await ctx.send("https://i.natgeofe.com/k/0ed36c42-672a-425b-9e62-7cc946b98051/pig-fence_square.jpg")
+@bot.command()
+async def sonobello(ctx):
+    await ctx.send("no.")
+@bot.command()
+async def communismo(ctx):
+    await ctx.send("https://cdn-images.threadless.com/threadless-media/artist_shops/shops/LizzieJCfcbfg/products/860650/shirt-1544514961-6760f00a97128b20c2366ca392444af8.png?v=3&d=eyJvcHMiOiBbWyJ0cmltIiwgW2ZhbHNlLCBmYWxzZV0sIHt9XSwgWyJyZXNpemUiLCBbXSwgeyJ3aWR0aCI6IDk5Ni4wLCAiYWxsb3dfdXAiOiBmYWxzZSwgImhlaWdodCI6IDk5Ni4wfV0sIFsiY2FudmFzX2NlbnRlcmVkIiwgWzEyMDAsIDEyMDBdLCB7ImJhY2tncm91bmQiOiAiZmZmZmZmIn1dLCBbInJlc2l6ZSIsIFs4MDBdLCB7fV0sIFsiY2FudmFzX2NlbnRlcmVkIiwgWzgwMCwgODAwLCAiI2ZmZmZmZiJdLCB7fV0sIFsiZW5jb2RlIiwgWyJqcGciLCA4NV0sIHt9XV0sICJmb3JjZSI6IGZhbHNlLCAib25seV9tZXRhIjogZmFsc2V9")
+@bot.command()
+async def fascismo(ctx):
+    await ctx.send("no.")
+@bot.command()
+async def soldi(ctx):
+    await ctx.send("I soldi nel tuo account sono: 0$, FALLITOOO")
+@bot.command()
+async def babushka(ctx):
+    await ctx.send("https://www.colombomilano1911.com/img/cms/babushka-foulard-nonne-russe.jpg")
+    await ctx.send("Babushka sarà sempre per te")
+
+import os
+
+@bot.command()
+async def mem(ctx, name=None):
+    folder = "lepyton/img"
+    memes = os.listdir(folder)
+    
+    if name is None or name not in memes:
+        name = random.choice(memes)
+
+    with open(f'{folder}/{name}', 'rb') as f:
+        picture = discord.File(f)
+        await ctx.send(file=picture)
+
+def get_duck_image_url():    
+    url = 'https://random-d.uk/api/random'
+    res = requests.get(url)
+    data = res.json()
+    return data['url']
+
+
+@bot.command('duck')
+async def duck(ctx):
+    '''Una volta chiamato il comando duck, il programma richiama la funzione get_duck_image_url'''
+    image_url = get_duck_image_url()
+    await ctx.send(image_url)
+
+
+@bot.command()
+async def bottles(ctx, amount: typing.Optional[int] = 46, *, liquid="vodka"):
+    await ctx.send(f'{amount} bottles of {liquid} in the bar!') 
+
+@bot.command()
+async def sparare(ctx, members: commands.Greedy[discord.Member], *, reason='nessun motivo'):
+    sparato = ", ".join(x.name for x in members)
+    await ctx.send(f'{sparato} è stato sparato per {reason}')       
+
+bot.run(TOKEN")
